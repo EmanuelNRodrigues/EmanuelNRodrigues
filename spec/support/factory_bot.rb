@@ -1,4 +1,5 @@
 # rubocop:disable Style/FrozenStringLiteralComment
-class ApplicationController < ActionController::API
+RSpec.configure do |config|
+  config.include FactoryBot::Syntax::Methods
 end
 # rubocop:enable Style/FrozenStringLiteralComment
