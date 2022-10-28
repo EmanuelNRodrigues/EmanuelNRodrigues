@@ -2,15 +2,13 @@
 #
 # Table name: documents
 #
-#  id                :integer          not null, primary key
-#  delivered_at      :date
-#  documentable_type :string           not null
-#  requested_at      :date
-#  status            :integer
+#  id                :bigint           not null, primary key
+#  description       :string(255)      not null
+#  documentable_type :string(255)      not null
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
-#  documentable_id   :integer          not null
-#  project_id        :integer          not null
+#  documentable_id   :bigint           not null
+#  project_id        :bigint           not null
 #
 # Indexes
 #
@@ -19,9 +17,11 @@
 #
 # Foreign Keys
 #
-#  project_id  (project_id => projects.id)
+#  fk_rails_...  (project_id => projects.id)
 #
 class Document < ApplicationRecord
   belongs_to :project
   belongs_to :documentable
+
+  validates :project_id, :documentable, presence: true
 end
