@@ -9,13 +9,17 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
+# Indexes
+#
+#  index_users_on_email  (email) UNIQUE
+#
 class User < ApplicationRecord
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   enum role: { admin: 0, client: 1 }
 
-  validates :full_name, presence: { message: 'O nome é obrigatório' },
-                        length: { maximum: 50, message: 'Superou o número máximo de 50 caracteres' }
-  validates :email, presence: { message: 'O email é obrigatório' },
-                    format: { with: VALID_EMAIL_REGEX, message: 'O email introduzido não é válido' }
-  validates :role, inclusion: { in: roles, message: 'Tem de escolher uma função válida' }
+  validates :full_name, presence: { message: ERROR[:name_presence] },
+                        length: { maximum: 50, message: ERROR[:name_length] }
+  validates :email, presence: { message: ERROR[:email_presence] },
+                    format: { with: VALID_EMAIL_REGEX, message: ERROR[:email_format] },
+                    uniqueness: { case_sensitive: true, message: ERROR[:email_uniqueness] }
 end

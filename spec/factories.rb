@@ -1,7 +1,8 @@
-# rubocop:disable Style/FrozenStringLiteralComment
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :project_doc do
-    version { "v1" }
+    version { 'v1' }
   end
 
   factory :accounting_doc do
@@ -10,7 +11,7 @@ FactoryBot.define do
   end
 
   factory :government_doc do
-    entity { "Camara Municipal" }
+    entity { 'Camara Municipal' }
     date { Date.today }
   end
 
@@ -20,7 +21,7 @@ FactoryBot.define do
   factory :document do
     project
     association :documentable, factory: :architect_office_doc
-    description { "This is a description" }
+    description { 'This is a description' }
     delivered_at { Date.today }
 
     trait :architect_office do
@@ -33,7 +34,7 @@ FactoryBot.define do
     end
 
     trait :accounting do
-      sequence(:description) { |n| "Fatura n: #{n}" }
+      sequence(:description) { |n| "Fatura #{n}" }
       association :documentable, factory: :accounting_doc
     end
 
@@ -45,7 +46,7 @@ FactoryBot.define do
 
   factory :project do
     user
-    name { "Test Project" }
+    name { 'Test Project' }
     start_date { Date.today - 5.days }
     end_date { nil }
   end
@@ -56,4 +57,3 @@ FactoryBot.define do
     sequence(:email) { |n| "user#{n}@test.com" }
   end
 end
-# rubocop:enable Style/FrozenStringLiteralComment

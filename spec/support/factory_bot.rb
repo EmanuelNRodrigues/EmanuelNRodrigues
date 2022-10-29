@@ -1,5 +1,5 @@
-# rubocop:disable Style/FrozenStringLiteralComment
+# frozen_string_literal: true
+
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
 end
-# rubocop:enable Style/FrozenStringLiteralComment
