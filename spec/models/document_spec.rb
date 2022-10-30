@@ -27,7 +27,9 @@ RSpec.describe Document, type: :model do
     let(:project) { create(:project) }
 
     it { is_expected.to validate_presence_of(:description).with_message(Message::ERROR[:description_presence]) }
-    it { is_expected.to validate_length_of(:description).is_at_most(200).with_message(Message::ERROR[:description_length]) }
+    it {
+      is_expected.to validate_length_of(:description).is_at_most(200).with_message(Message::ERROR[:description_length])
+    }
     it { is_expected.to validate_presence_of(:documentable_id).with_message(Message::ERROR[:documentable_presence]) }
     it { is_expected.to validate_presence_of(:project_id).with_message(Message::ERROR[:project_presence]) }
   end
