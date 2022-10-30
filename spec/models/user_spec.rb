@@ -17,7 +17,7 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   describe 'validations' do
-    subject { create(:user) }
+    subject { build(:user) }
     it { is_expected.to validate_presence_of(:full_name).with_message(Message::ERROR[:name_presence]) }
     it { is_expected.to validate_length_of(:full_name).is_at_most(50).with_message(Message::ERROR[:name_length]) }
     it { is_expected.to validate_presence_of(:email).with_message(Message::ERROR[:email_presence]) }

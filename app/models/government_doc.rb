@@ -9,4 +9,5 @@
 #  updated_at :datetime         not null
 #
 class GovernmentDoc < ApplicationRecord
+  has_one :document
 end

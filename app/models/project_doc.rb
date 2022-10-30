@@ -8,4 +8,5 @@
 #  updated_at :datetime         not null
 #
 class ProjectDoc < ApplicationRecord
+  has_one :document
 end

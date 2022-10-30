@@ -9,4 +9,5 @@
 #  updated_at :datetime         not null
 #
 class AccountingDoc < ApplicationRecord
+  has_one :document
 end

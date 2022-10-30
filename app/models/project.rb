@@ -20,15 +20,17 @@
 #
 class Project < ApplicationRecord
   belongs_to :user
-  validates :name, presence: { message: 'O nome é obrigatório' },
-                   length: { maximum: 50, message: 'Superou o número máximo de 50 caracteres' }
-  validates :start_date, presence: { message: 'Deve especificar uma data de início' }
-  validates :user_id, presence: { message: 'Deve ter um cliente associado' }
-  validate :validate_end_date, on: :save
+  has_many :documents
+
+  validates :name, presence: { message: ERROR[:name_presence] },
+                   length: { maximum: 50, message: ERROR[:name_length] }
+  validates :start_date, presence: { message: ERROR[:start_date_presence] }
+  validates :user_id, presence: { message: ERROR[:user_presence] }
+  validate :validate_end_date
 
   def validate_end_date
-    return unless end_date.present? && end_date > start_date
+    return if end_date.blank? || end_date > start_date
 
-    raise StandardError('A data de fim deve ser posterior à data de início')
+    errors.add(:end_date, message: ERROR[:end_date_validation])
   end
 end
