@@ -22,7 +22,6 @@ FactoryBot.define do
     project
     association :documentable, factory: :architect_office_doc
     description { 'This is a description' }
-    delivered_at { Date.today }
 
     trait :architect_office do
       sequence(:description) { |n| "Proposta de valor n: #{n}" }

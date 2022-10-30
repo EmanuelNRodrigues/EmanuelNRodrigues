@@ -9,5 +9,5 @@
 #  updated_at :datetime         not null
 #
 class AccountingDoc < ApplicationRecord
-  has_one :document
+  has_one :document, as: :documentable
 end
