@@ -10,8 +10,8 @@
 #
 require 'rails_helper'
 
-RSpec.describe GovernmentDoc, type: :model do
+RSpec.describe(GovernmentDoc, type: :model) do
   describe 'associations' do
-    it { is_expected.to have_one(:document) }
+    it { is_expected.to(have_one(:document)) }
   end
 end

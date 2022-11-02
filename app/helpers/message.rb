@@ -14,6 +14,12 @@ module Message
     project_presence: 'Deve ter um projeto associado',
     role_inclusion: 'Tem de escolher uma função de utilizador válida',
     start_date_presence: 'A data de entrada é obrigatória',
+    user_delete: 'Ocorreu um erro a apagar o utilizador',
     user_presence: 'Deve ter um cliente associado'
+  }.freeze
+  INFO = {
+    user_create: 'O utilizador foi criado com sucesso',
+    user_update: 'O utilizador foi atualizado com sucesso',
+    user_delete: 'O utilizador foi apagado com sucesso'
   }.freeze
 end
