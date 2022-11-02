@@ -8,8 +8,8 @@
 #
 require 'rails_helper'
 
-RSpec.describe ArchitectOfficeDoc, type: :model do
+RSpec.describe(ArchitectOfficeDoc, type: :model) do
   describe 'associations' do
-    it { is_expected.to have_one(:document) }
+    it { is_expected.to(have_one(:document)) }
   end
 end

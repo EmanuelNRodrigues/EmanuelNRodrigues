@@ -17,7 +17,7 @@ class User < ApplicationRecord
   has_many :projects
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-  enum role: { admin: 0, client: 1 }
+  enum role: { admin: 0, user: 1 }
 
   validates :full_name, presence: { message: ERROR[:name_presence] },
                         length: { maximum: 50, message: ERROR[:name_length] }
