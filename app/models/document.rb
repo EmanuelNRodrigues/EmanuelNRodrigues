@@ -25,6 +25,7 @@ class Document < ApplicationRecord
 
   validates :description, presence: { message: ERROR[:description_presence] },
                           length: { maximum: 200, message: ERROR[:description_length] }
-  validates :documentable_id, presence: { message: ERROR[:documentable_presence] }
+  validates :documentable_id,
+            presence: { message: ERROR[:documentable_presence] }
   validates :project_id, presence: { message: ERROR[:project_presence] }
 end

@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
 # Handles the user requests
-class UserController < ApplicationController
+class UsersController < ApplicationController
   before_action :fetch_user, only: %i[show update destroy]
 
-  # GET /user
+  # GET /users
   def index
     users = User.select(:id, :full_name, :role, :email)
     render(status: :ok,
            json: users)
   end
 
-  # POST /user
+  # POST /users
   def create
     new_user = User.create(permited_params)
 
@@ -24,13 +24,13 @@ class UserController < ApplicationController
     end
   end
 
-  # GET /user/:id
+  # GET /users/:id
   def show
     render status: :ok,
            json: @user
   end
 
-  # PUT /user/:id
+  # PUT /users/:id
   def update
     @user.update(permited_params)
     if @user.validate
@@ -42,7 +42,7 @@ class UserController < ApplicationController
     end
   end
 
-  # DELETE /user/:id
+  # DELETE /users/:id
   def destroy
     unless User.destroy(@user.id)
       return render status: :unprocessable_entity,

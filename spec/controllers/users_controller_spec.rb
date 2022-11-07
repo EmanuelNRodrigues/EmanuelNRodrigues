@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe(UserController, type: :controller) do
+RSpec.describe(UsersController, type: :request) do
   describe 'index' do
     let(:users_count) { 3 }
     before do
       create_list(:user, users_count)
-      get :index
+      get users_path
     end
 
     it 'is expected to respond with a status 200 ok' do
@@ -22,10 +22,10 @@ RSpec.describe(UserController, type: :controller) do
   end
 
   describe 'create' do
-    let(:create_request) { post :create, params: create_params }
-    let(:create_params) { { full_name: 'Test', role: 'user', email: '1@b.c' } }
+    let(:create_request) { post users_path, params: create_params }
 
     context 'when saving correctly' do
+      let(:create_params) { { full_name: 'Test', role: 'user', email: '1@b.c' } }
       it 'is expected to respond with a status 201 created' do
         create_request
         expect(response.status).to eq 201
@@ -43,15 +43,14 @@ RSpec.describe(UserController, type: :controller) do
     end
 
     context 'when saving throws error' do
+      let(:create_params) { { full_name: '', role: 'user', email: 'ERROR' } }
       it 'is expected to respond with a status 422 unprocessable entity' do
-        create_params[:email] = 'error'
         create_request
         expect(response.status).to eq 422
       end
 
       it 'is expected to respond with the invalid attributes and array of messages' do
-        post :create, params: { full_name: '', role: 'admin', email: 'error@' }
-
+        create_request
         expect(JSON(response.body).symbolize_keys)
           .to eq(full_name: [Message::ERROR[:name_presence]],
                  email: [Message::ERROR[:email_format]])
@@ -60,11 +59,11 @@ RSpec.describe(UserController, type: :controller) do
   end
 
   describe 'show' do
-    before { get :show, params: show_params }
+    before { get user_path(user_id) }
 
     context 'when the pretended user exists' do
       let(:user) { create(:user) }
-      let(:show_params) { { id: user.id } }
+      let(:user_id) { user.id }
 
       it 'is expected to respond with a status 200 ok' do
         expect(response.status).to eq 200
@@ -76,7 +75,7 @@ RSpec.describe(UserController, type: :controller) do
     end
 
     context 'when the pretended user does not exist' do
-      let(:show_params) { { id: 0 } }
+      let(:user_id) { { id: 0 } }
 
       it 'is expected to respond with a status 404 not found' do
         expect(response.status).to eq 404
@@ -89,12 +88,13 @@ RSpec.describe(UserController, type: :controller) do
   end
 
   describe 'update' do
-    before { put :update, params: update_params }
+    before { put user_path(user_id), params: update_params }
     let(:user) { create(:user) }
 
     context 'when the pretended user exists and updates corretly' do
+      let(:user_id) { user.id }
+      let(:update_params) { { full_name: new_name } }
       let(:new_name) { 'New Test Name' }
-      let(:update_params) { { id: user.id, full_name: new_name } }
 
       it 'is expected to respond with a status 200 ok' do
         expect(response.status).to eq 200
@@ -112,7 +112,8 @@ RSpec.describe(UserController, type: :controller) do
     end
 
     context 'when the pretended user exists but throws error when updating' do
-      let(:update_params) { { id: user.id, full_name: '', email: 'error' } }
+      let(:user_id) { user.id }
+      let(:update_params) { { full_name: '', email: 'error' } }
 
       it 'is expected to respond with a status 422 unprocessable entity' do
         expect(response.status).to eq 422
@@ -126,7 +127,8 @@ RSpec.describe(UserController, type: :controller) do
     end
 
     context 'when the pretended user does not exist' do
-      let(:update_params) { { id: 0, full_name: 'New Name' } }
+      let(:user_id) { 0 }
+      let(:update_params) { { full_name: 'New Name' } }
 
       it 'is expected to respond with a status 404 not found' do
         expect(response.status).to eq 404
@@ -139,11 +141,11 @@ RSpec.describe(UserController, type: :controller) do
   end
 
   describe 'destroy' do
-    let(:destroy_request) { delete :destroy, params: destroy_params }
+    let(:destroy_request) { delete user_path(user_id) }
     let(:user) { create(:user) }
 
     context 'when the pretended user exists' do
-      let!(:destroy_params) { { id: user.id } }
+      let!(:user_id) { user.id }
 
       it 'is expected to respond with a status 200 ok' do
         destroy_request
@@ -156,7 +158,7 @@ RSpec.describe(UserController, type: :controller) do
     end
 
     context 'when the pretended user does not exist' do
-      let(:destroy_params) { { id: 0 } }
+      let!(:user_id) { 0 }
 
       it 'is expected to respond with a status 404 not found' do
         destroy_request
