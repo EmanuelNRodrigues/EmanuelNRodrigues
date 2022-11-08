@@ -25,7 +25,7 @@ RSpec.describe(UsersController, type: :request) do
     let(:create_request) { post users_path, params: create_params }
 
     context 'when saving correctly' do
-      let(:create_params) { { full_name: 'Test', role: 'user', email: '1@b.c' } }
+      let(:create_params) { { full_name: 'Test', role: 'customer', email: '1@b.c' } }
       it 'is expected to respond with a status 201 created' do
         create_request
         expect(response.status).to eq 201
@@ -43,7 +43,7 @@ RSpec.describe(UsersController, type: :request) do
     end
 
     context 'when saving throws error' do
-      let(:create_params) { { full_name: '', role: 'user', email: 'ERROR' } }
+      let(:create_params) { { full_name: '', role: 'customer', email: 'ERROR' } }
       it 'is expected to respond with a status 422 unprocessable entity' do
         create_request
         expect(response.status).to eq 422
