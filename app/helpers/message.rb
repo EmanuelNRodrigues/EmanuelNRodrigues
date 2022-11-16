@@ -20,6 +20,9 @@ module Message
   INFO = {
     user_create: 'O utilizador foi criado com sucesso',
     user_update: 'O utilizador foi atualizado com sucesso',
-    user_delete: 'O utilizador foi apagado com sucesso'
+    user_delete: 'O utilizador foi apagado com sucesso',
+    project_create: 'O projeto foi criado com sucesso',
+    project_update: 'O projeto foi atualizado com sucesso',
+    project_delete: 'O projeto foi apagado com sucesso',
   }.freeze
 end
