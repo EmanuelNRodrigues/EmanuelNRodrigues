@@ -12,6 +12,8 @@ module Message
     name_length: 'O nome é demasiado comprido',
     name_presence: 'O nome é obrigatório',
     project_presence: 'Deve ter um projeto associado',
+    project_delete: 'Ocorreu um erro a apagar o utilizador',
+    project_show: 'Não existe o projecto pretendido',
     role_inclusion: 'Tem de escolher uma função de utilizador válida',
     start_date_presence: 'A data de entrada é obrigatória',
     user_delete: 'Ocorreu um erro a apagar o utilizador',
@@ -23,6 +25,6 @@ module Message
     user_delete: 'O utilizador foi apagado com sucesso',
     project_create: 'O projeto foi criado com sucesso',
     project_update: 'O projeto foi atualizado com sucesso',
-    project_delete: 'O projeto foi apagado com sucesso',
+    project_delete: 'O projeto foi apagado com sucesso'
   }.freeze
 end
