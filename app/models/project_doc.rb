@@ -8,5 +8,5 @@
 #  updated_at :datetime         not null
 #
 class ProjectDoc < ApplicationRecord
-  has_one :document, as: :documentable
+  has_one :document, as: :documentable, dependent: :destroy
 end

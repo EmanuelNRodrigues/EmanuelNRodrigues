@@ -23,6 +23,10 @@ class Document < ApplicationRecord
   belongs_to :project
   belongs_to :documentable, polymorphic: true
 
+  TYPES = [AccountingDoc, ArchitectOfficeDoc, GovernmentDoc,
+           ProjectDoc
+].freeze
+
   validates :description, presence: { message: ERROR[:description_presence] },
                           length: { maximum: 200, message: ERROR[:description_length] }
   validates :documentable_id,

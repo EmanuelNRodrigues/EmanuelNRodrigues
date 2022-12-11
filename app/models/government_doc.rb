@@ -9,5 +9,5 @@
 #  updated_at :datetime         not null
 #
 class GovernmentDoc < ApplicationRecord
-  has_one :document, as: :documentable
+  has_one :document, as: :documentable, dependent: :destroy
 end

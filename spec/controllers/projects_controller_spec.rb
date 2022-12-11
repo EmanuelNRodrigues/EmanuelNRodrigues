@@ -68,7 +68,7 @@ RSpec.describe(ProjectsController, type: :request) do
     end
 
     context 'when errors occurs when creating a new project' do
-      let(:create_params) {attributes_for(:project, name: nil)}
+      let(:create_params) { attributes_for(:project, name: nil) }
 
       it 'is expected to not create a new project' do
         expect { create_request }.to_not change(Project, :count)
@@ -81,7 +81,7 @@ RSpec.describe(ProjectsController, type: :request) do
 
       it 'is expected to respond with the error messages' do
         create_request
-        expect(JSON(response.body)).to eq({ "name" => [Message::ERROR[:name_presence]] })
+        expect(JSON(response.body)).to eq({ 'name' => [Message::ERROR[:name_presence]] })
       end
     end
   end
@@ -89,7 +89,4 @@ RSpec.describe(ProjectsController, type: :request) do
   describe 'update' do
     xit 'we need tests'
   end
-
-
-
 end

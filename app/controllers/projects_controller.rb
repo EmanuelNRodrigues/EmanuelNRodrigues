@@ -2,7 +2,6 @@
 
 # Handles the project requests
 class ProjectsController < ApplicationController
-
   before_action :fetch_project, only: %i[show update destroy]
   # GET	/users/:user_id/projects
   def index
@@ -19,7 +18,7 @@ class ProjectsController < ApplicationController
 
   # POST	/users/:user_id/projects
   def create
-    new_project = Project.create(permited_params.merge(user_id:))
+    new_project = Project.create(permited_params)
 
     if new_project.validate
       render status: :created,
@@ -33,11 +32,11 @@ class ProjectsController < ApplicationController
   # GET /users/:user_id/projects/:id
   def show
     if @project
-    render status: :ok,
-           json: @project
+      render status: :ok,
+             json: @project
     else
-    render status: :not_found,
-           json: Message::ERROR[:project_show]
+      render status: :not_found,
+             json: Message::ERROR[:project_show]
     end
   end
 
@@ -45,9 +44,9 @@ class ProjectsController < ApplicationController
   def update
     @project.update(permited_params)
 
-    if @user.validate
+    if @project.validate
       render status: :ok,
-      json: @project
+             json: @project
     else
       render status: :unprocessable_entity,
              json: @project.errors.messages
@@ -56,7 +55,7 @@ class ProjectsController < ApplicationController
 
   # DELETE /users/:user_id/projects/:id
   def destroy
-    if User.destroy(@project.id)
+    if Project.destroy(@project.id)
       render status: :ok,
              json: Message::INFO[:project_delete]
     else
@@ -72,11 +71,7 @@ class ProjectsController < ApplicationController
   end
 
   def permited_params
-    params.permit(%i[id name start_date end_date])
-  end
-
-  def user_id
-    params.require(:user_id)
+    params.permit(%i[id name start_date end_date]).merge(user_id:)
   end
 
   def fetch_project
