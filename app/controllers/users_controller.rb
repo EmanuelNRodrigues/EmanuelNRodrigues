@@ -13,7 +13,7 @@ class UsersController < ApplicationController
 
   # POST /users
   def create
-    new_user = User.create(permited_params)
+    new_user = User.create(permitted_params)
 
     if new_user.validate
       render status: :created,
@@ -32,7 +32,7 @@ class UsersController < ApplicationController
 
   # PUT /users/:id
   def update
-    @user.update(permited_params)
+    @user.update(permitted_params)
     if @user.validate
       render status: :ok,
              json: @user
@@ -57,7 +57,7 @@ class UsersController < ApplicationController
 
   private
 
-  def permited_params
+  def permitted_params
     params.permit(%i[full_name role email])
   end
 

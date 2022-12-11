@@ -88,8 +88,8 @@ RSpec.describe(UsersController, type: :request) do
   end
 
   describe 'update' do
-    before { put user_path(user_id), params: update_params }
     let(:user) { create(:user) }
+    before { put user_path(user_id), params: update_params }
 
     context 'when the pretended user exists and updates corretly' do
       let(:user_id) { user.id }
@@ -100,7 +100,7 @@ RSpec.describe(UsersController, type: :request) do
         expect(response.status).to eq 200
       end
 
-      it 'is expetect to change the user correctly' do
+      it 'is expected to change the user correctly' do
         user.reload
         expect(user.full_name).to eq(new_name)
       end

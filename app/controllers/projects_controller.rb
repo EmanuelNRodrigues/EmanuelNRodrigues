@@ -3,13 +3,15 @@
 # Handles the project requests
 class ProjectsController < ApplicationController
   before_action :fetch_project, only: %i[show update destroy]
+
+  SHOWABLE_PARAMS = %i[id name start_date end_date].freeze
   # GET	/users/:user_id/projects
   def index
     projects = if user_is_admin?
-                 Project.select(%w[id name start_date end_date])
+                 Project.select(SHOWABLE_PARAMS)
                else
-                 Project.select(%w[id name start_date end_date])
-                        .where(user_id: params.require(:user_id))
+                 Project.select(SHOWABLE_PARAMS)
+                        .where(user_id:)
                end
 
     render status: :ok,
@@ -18,7 +20,7 @@ class ProjectsController < ApplicationController
 
   # POST	/users/:user_id/projects
   def create
-    new_project = Project.create(permited_params)
+    new_project = Project.create(permitted_params.merge(user_id:))
 
     if new_project.validate
       render status: :created,
@@ -42,11 +44,10 @@ class ProjectsController < ApplicationController
 
   # PUT /users/:user_id/projects/:id
   def update
-    @project.update(permited_params)
-
+    @project.update(permitted_params.merge(user_id:))
     if @project.validate
       render status: :ok,
-             json: @project
+             json: @project.attributes.slice(SHOWABLE_PARAMS)
     else
       render status: :unprocessable_entity,
              json: @project.errors.messages
@@ -70,15 +71,24 @@ class ProjectsController < ApplicationController
     User.find(params.require(:user_id)).role == 'admin'
   end
 
-  def permited_params
-    params.permit(%i[id name start_date end_date]).merge(user_id:)
+  def permitted_params
+    params.permit(SHOWABLE_PARAMS)
+  end
+
+  def user_id
+    params.require(:user_id)
   end
 
   def fetch_project
     @project = if user_is_admin?
-                 Project.find(params.required(:id))
+                 Project.select(SHOWABLE_PARAMS)
+                        .find(params.required(:id))
                else
-                 Project.find_by(id: params.required(:id), user_id:)
+                 Project.select(SHOWABLE_PARAMS)
+                        .find_by(id: params.required(:id), user_id:)
                end
+  rescue ActiveRecord::RecordNotFound
+    render status: :not_found,
+           json: ''
   end
 end
