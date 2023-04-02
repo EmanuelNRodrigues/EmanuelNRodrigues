@@ -52,7 +52,7 @@ FactoryBot.define do
 
   factory :user do
     sequence(:full_name) { |n| "user #{n}" }
-    role { 0 }
+    role { 'admin' }
     sequence(:email) { |n| "user#{n}@test.com" }
   end
 end

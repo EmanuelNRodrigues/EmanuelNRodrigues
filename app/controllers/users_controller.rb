@@ -1,19 +1,19 @@
 # frozen_string_literal: true
 
 # Handles the user requests
-class UserController < ApplicationController
+class UsersController < ApplicationController
   before_action :fetch_user, only: %i[show update destroy]
 
-  # GET /user
+  # GET /users
   def index
     users = User.select(:id, :full_name, :role, :email)
     render(status: :ok,
            json: users)
   end
 
-  # POST /user
+  # POST /users
   def create
-    new_user = User.create(permited_params)
+    new_user = User.create(permitted_params)
 
     if new_user.validate
       render status: :created,
@@ -24,15 +24,15 @@ class UserController < ApplicationController
     end
   end
 
-  # GET /user/:id
+  # GET /users/:id
   def show
     render status: :ok,
            json: @user
   end
 
-  # PUT /user/:id
+  # PUT /users/:id
   def update
-    @user.update(permited_params)
+    @user.update(permitted_params)
     if @user.validate
       render status: :ok,
              json: @user
@@ -42,20 +42,22 @@ class UserController < ApplicationController
     end
   end
 
-  # DELETE /user/:id
+  # DELETE /users/:id
   def destroy
-    unless User.destroy(@user.id)
-      return render status: :unprocessable_entity,
-                    json: Message::ERROR[:user_delete]
-    end
+    if User.destroy(@user.id)
+      render status: :ok,
+             json: Message::INFO[:user_delete]
 
-    render status: :ok,
-           json: Message::INFO[:user_delete]
+    else
+      render status: :unprocessable_entity,
+             json: Message::ERROR[:user_delete]
+
+    end
   end
 
   private
 
-  def permited_params
+  def permitted_params
     params.permit(%i[full_name role email])
   end
 
