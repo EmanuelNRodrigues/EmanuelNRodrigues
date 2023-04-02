@@ -56,3 +56,5 @@ group :test do
 end
 
 gem 'byebug', '~> 11.1', groups: %i[development test]
+
+gem "rack-cors", "~> 1.1"
